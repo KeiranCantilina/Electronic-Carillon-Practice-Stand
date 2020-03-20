@@ -1,0 +1,31 @@
+Shopping List
+
+4* 2x4x10 (cut in half) for posts
+4* 2x4x8 for front and side struts (each cut at 70.386 inches, both pieces kept)
+1* 2x4x8 for crossbar in back (cut to 6 ft-ish)
+3* 2x3x8 for pedalboard, side, and back struts (cut 70.386 inches, as usual)
+3* 1x2x8 for key separator, tone bar support, and hammer fulcrum bar (two cut 15.75 in[rest kept], 1 cut 70.386 inches))
+1* 2x2x8 for accidental keys hinge base bar (normal 70.386 in cut)
+
+Optional:
+1* 4x8 sheet of 1/4" plywood for tone bars (cut down to two 2 x 5.25 foot pieces)
+(really what is needed is 7.37" by 5'-3.4" sheet and a 3.87" by 5'-3.4" sheet)
+1* 2x4 sheet of 1/2" sanded plywood for pedal keyspreader (cut down to 1ft x 4ft)
+(1x3 foot sheet is better for pedalboard)
+
+Lumber Cost
+4*4.18	16.72
+5*3.02	15.10
+3*2.08	06.24
+3*2.19	06.57
+1*1.98	01.98
+--------------
+TOTAL:	46.61
+
+Plywood
+1*15.22
+
+
+
+70.3858268
+15.748

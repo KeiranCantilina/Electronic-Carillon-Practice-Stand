@@ -1,0 +1,18 @@
+lumber sizes
+Posts:	89x89mm (4x4)
+Struts:	38x89mm	(2x4)
+Keys:	19x19mm	(1/4")
+	38x64mm (2x3)
+	19x38mm	(1x2)
+
+Long key total length (from hinge point): 619mm
+Short key total length			: 546mm
+
+printed key length: 125mm
+Insert depth: 25mm
+
+long key stick length: 519mm
+short key stick length: 446mm
+
+Longest lumber dimension: 1787.8mm
+

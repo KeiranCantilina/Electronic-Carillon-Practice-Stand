@@ -1,0 +1,21 @@
+Keyhole at spreader: 77.5mm
+Acceptable keyfall/pedalfall: 40-55mm
+
+Accidental Keyheight: 24.92mm
+Max accidental keyfall at spreader: 52.58
+Accidental Felt thickness: 0 to 6.29mm
+Accidental Imperial felt thickness: 0 to 1/4"
+
+Diatonic keyheight: 19mm
+Max diatonic keyfall at spreader: 58.5
+Diatonic felt thickness: 1.75 to 9.25mm
+Diatonic imperial felt thickness: 1/16" to 23/64"
+
+
+Pedalhole at spreader: 85.68mm
+Pedal thickness: 50.8mm
+Max pedalfall at spreader: 34.88mm
+Pedalfall at tip:
+
+
+
