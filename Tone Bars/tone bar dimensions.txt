@@ -1,0 +1,27 @@
+Aluminum 6061
+3/4in width, 1/8in thickness
+(19.05mm, 3.175mm)
+
+12 in 		177.52Hz TEST
+
+Bb2	116.5409Hz	14.8074 inches		8.14407 inches between holes
+C3	130.8128Hz	13.9764 inches		7.68702 inches between holes
+C4	261.6256Hz	9.8827 inches		5.435485 inches between holes
+C5	523.2511Hz	6.9864 inches		3.84252 inches between holes
+C6	1046.502Hz	4.9389 inches		2.716395 inches between holes
+C7	2093.005Hz	3.4898 inches		1.91939 inches between holes
+
+Centers of keys are 23mm apart
+Resonators: 3/4in. CPVC Charlotte Water Pipe (0.715" ID, 0.875" OD)(18.161, 22.225)
+Test length: 652.8569 mm (25.70303")[130.8Hz] (adjustable to 662.0045 mm (26.06")[129Hz])
+Test key length 2: 178.17592mm [523.25Hz] Pipe: 161.15544mm (cut short)
+Use with 3/4 in. CPVC CTS Slip Cap Fitting
+
+VERSION 2 ------------------------------
+
+Bb2 to B4 uses 1/16" thick 3/4" wide aluminum bar.
+
+Bb2	116.5409Hz	265.9888 mm		59.5814912 mm from ends
+C3	130.8128Hz	250.952 mm		56.213248 mm from ends
+B3	246.9417Hz	182.753 mm		40.936672 mm from ends	
+
