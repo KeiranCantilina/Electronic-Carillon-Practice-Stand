@@ -1,3 +1,5 @@
+//#include <ardumidi.h>
+
 /*
   Prototype code to read velocity from a large array of
   linear Hall effect sensors. This code was developed for
@@ -9,9 +11,9 @@
 
 #define N 1 // Keyboard chunk size (ie. number of notes)
 #define TOP 1 // Top note (in MIDI notation) of keyboard chunk
-#define BOTTOM 1 // Bottom note
+#define BOTTOM 50 // Bottom note
 #define LOOP_TIME 10 // Loop delay time in ms
-#define SCALING 1 // Scaling factor for velocity
+#define SCALING -0.3 // Scaling factor for velocity
 #define CHANNEL 0x90 // MIDI channel
 #define DEBOUNCE_DELAY 50
 
@@ -19,8 +21,8 @@
 int global_array[N][3];
 int pin_array[N] = {24};
 int MIDI_array[N] = {0};
-int trigger_values[N] = {315};
-int max_value[N] = {965};
+int trigger_values[N] = {344};
+int max_value[N] = {958};
 unsigned long last_debounce_time_array[N] = {0};
 unsigned long debounceDelay = DEBOUNCE_DELAY; // or possibly loop time multiplied by some value
 
@@ -55,7 +57,7 @@ void loop() {
   // init vars
   int data = 1024;
   int velocity = 0;
-  int delta = 0;
+  double delta = 0;
 
   // Loop through buffers
   for (int i = 0; i<3; i++){
@@ -84,16 +86,18 @@ void loop() {
           // Get current time for debouncing
           last_debounce_time_array[j]= millis();
           velocity = delta*SCALING;
-          Serial.println(String(velocity)+","+String(global_array[0][0])+","+String(global_array[0][1])+","+String(global_array[0][2]));
+          if(velocity>127){velocity = 127;}
+          //Serial.println(String(velocity)+","+String(global_array[0][0])+","+String(global_array[0][1])+","+String(global_array[0][2]));
 
           // Then play the triggered note with the measured velocity
-          //playNote(MIDI_array[j], velocity);
+          playNote(/*MIDI_array[j]*/0x32, velocity);
         }
       }
     }
 
     // Wait before moving on to the next buffer (to allow time for baton to move)
-    delay(LOOP_TIME);
+    delay(LOOP_TIME/N);
+    //Serial.println(String(analogRead(24)));
   }
 }
 
