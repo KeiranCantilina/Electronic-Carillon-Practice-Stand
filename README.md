@@ -9,8 +9,8 @@ Given my lack of woodworking or machining skills (and lack of space/money for to
 
 For the frame, no tools are strictly required other than a handsaw, hacksaw, screwdriver, and measuring tape (unless you count the 3D printer). However, an impact driver saves a lot of time when putting screws in, and 42" Harbor Freight bolt cutters rigged with a double tackle make much quicker work of cutting rebar than a hacksaw. A cheap plastic miter box ($10 at the time of writing) is also helpful.
 
-The current electronic design uses an Arduino Mega, ADS1118 analog-to-digital converters, and SS49E Hall Effect sensors paired with magnets to sense velocity (using magnetic flux measurements as a proxy for position). A soldering iron is necessary to assemble the electronic components (for now, until I get PCB designs set up after which "toaster oven reflow" might be possible).
+The current electronic design uses an Arduino Mega 2560 development board, ADS1118 analog-to-digital converters, and SS49E Hall Effect sensors paired with magnets to sense velocity (using magnetic field strength measurements as a proxy for position). A soldering iron is necessary to assemble the electronic components (for now, until I get PCB designs set up after which "toaster oven reflow" might be possible).
 
-The microcontrller sends out MIDI messages over serial-USB to an ancient netbook running virtual midi port software and a sequencer (SyFonOne loaded with a custom soundfont made with recorded samples).
+The microcontroller sends out MIDI messages over serial-USB to an ancient netbook running virtual midi port software and a sequencer (SyFonOne loaded with a custom soundfont made with recorded samples).
 
 
