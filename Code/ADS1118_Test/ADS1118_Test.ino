@@ -15,28 +15,31 @@
   TO DO: Add calibration method in this script (for setting trigger values)
 */
 
-#define N 1 // Keyboard chunk size (ie. number of notes)
+#define N 1 // Number of notes
+#define M 1 // Number of ADS1118 boards
 #define TOP 1 // Top note (in MIDI notation) of keyboard chunk
 #define BOTTOM 50 // Bottom note
 #define LOOP_TIME 10 // Loop delay time in ms
 #define SCALING -0.3 // Scaling factor for velocity
-#define CHANNEL 0x90 // MIDI channel
 #define DEBOUNCE_DELAY 50
 
 // Global array of arrays
-int global_array[N][3];
-int pin_array[N] = {4};
+unsigned int global_array[N][3];
+int pin_array[M] = {4};
 int MIDI_array[N] = {0};
-int trigger_values[N] = {344};
-int max_value[N] = {958};
+unsigned int trigger_values[N] = {344}; // Measured value at bottom of key travel
+unsigned int max_value[N] = {958};
 unsigned long last_debounce_time_array[N] = {0};
 unsigned long debounceDelay = DEBOUNCE_DELAY; // or possibly loop time multiplied by some value
+
+// Pointer to array of ADS1118 objects
+ADS1118 *ads_array[M];
 
 // Array of ADS1118 inputs (corresponding to AIN_0, AIN_1, AIN_2, AIN_3)
 const uint8_t ads_inputs[] = {0b100, 0b101, 0b110, 0b111};
 
 void setup() {
-  // init global array
+  // init global buffer 2D array
   for (int i = 0; i<3; i++){
     for (int j = 0; j<N; j++){
       global_array[j][i] = 965;
@@ -49,7 +52,7 @@ void setup() {
   }
   
   // init chip select pins and set to HIGH (inactive)
-  for (int i = 0; i < N; i++){
+  for (int i = 0; i < M; i++){
     pinMode(pin_array[i], OUTPUT);
     digitalWrite(pin_array[i],HIGH);
   }
@@ -58,12 +61,9 @@ void setup() {
   Serial.begin(57600);
 
   // ADS1118 Stuff (beware: dirty pointer magic below)
-
-  // Pointer to array of ADS1118 objects
-  ADS1118 *ads_array[N];
   
   // Loop through array for setup
-  for (int i = 0; i < N; i++){
+  for (int i = 0; i < M; i++){
     
     // Instantiate ADS1118 objects and shove into array
     ads_array[i] = new ADS1118(pin_array[i]);
@@ -75,7 +75,6 @@ void setup() {
     ads_array[i]->setSamplingRate(ads_array[i]->RATE_128SPS);
 
     // Set reference voltage full-scale range
-    String test = "FSR_4096";
     ads_array[i]->setFullScaleRange(ads_array[i]->FSR_4096);
     
     // Set continuous mode
@@ -85,67 +84,77 @@ void setup() {
     ads_array[i]->disablePullup();
 
     // Example
-    //ads_array[i]->getMilliVolts(ads_inputs[0]);
-    
+    //ads_array[i]->getADCValue(ads_inputs[0]);
   }
-
-  
-  
 }
 
 void loop() {
   
   // init vars
-  int data = 1024;
-  int velocity = 0;
+  unsigned int data = 65535;
+  long velocity = 0;
   double delta = 0;
+  int index = 0; // For keeping track of what note we're on
 
   // Loop through buffers
   for (int i = 0; i<3; i++){
-    
-    // Loop through reading each sensor
-    for (int j = 0; j<N; j++){
-      data = analogRead(j);
-      global_array[j][i] = data;
+    index = 0;
+    // Loop through reading each ADC board
+    for (int j = 0; j<M; j++){
       
-      // If a sensor value is under the threshold...
-      if(data <= trigger_values[j]){
+      // Loop through each input on each board
+      for (int k = 0; k<4; k++){
 
-        // Calculate delta using averaged buffer values
-        if (i == 2){
-          delta = ((global_array[j][2]-global_array[j][1])+(global_array[j][1]-global_array[j][0]))/2;
+        // Read value only if haven't passed the last note
+        if(index < N){
+          data = ads_array[j]->getADCValue(ads_inputs[k]);
+          global_array[index][i] = data;
         }
-        else if (i == 1){
-          delta = ((global_array[j][1]-global_array[j][0])+(global_array[j][0]-global_array[j][2]))/2;
+        else{
+          data = 65535;
         }
-        else if (i == 0){
-          delta = ((global_array[j][0]-global_array[j][2])+(global_array[j][2]-global_array[j][1]))/2;
+      
+        // If a sensor value is under the threshold...
+        if(data <= trigger_values[index]){
+
+          // Calculate delta using averaged buffer values
+          if (i == 2){
+            delta = ((global_array[index][2]-global_array[index][1])+(global_array[index][1]-global_array[index][0]))/2;
+          }
+          else if (i == 1){
+            delta = ((global_array[index][1]-global_array[index][0])+(global_array[index][0]-global_array[index][2]))/2;
+          }
+          else if (i == 0){
+            delta = ((global_array[index][0]-global_array[index][2])+(global_array[index][2]-global_array[index][1]))/2;
+          }
+
+          // If the delta is greater than minimum delta (default 0), map delta to velocity
+          if ((delta<-1) && ((millis()-last_debounce_time_array[index])>debounceDelay)){
+            // Get current time for debouncing
+            last_debounce_time_array[index]= millis();
+            velocity = delta*SCALING;
+            if(velocity>127){velocity = 127;}
+            //Serial.println(String(velocity)+","+String(global_array[index][0])+","+String(global_array[index][1])+","+String(global_array[index][2]));
+
+            // Then play the triggered note with the measured velocity
+            playNote(/*MIDI_array[index]*/0x32, velocity);
+          }
         }
 
-        // If the delta is greater than minimum delta (default 0), map delta to velocity
-        if ((delta<-1) && ((millis()-last_debounce_time_array[j])>debounceDelay)){
-          // Get current time for debouncing
-          last_debounce_time_array[j]= millis();
-          velocity = delta*SCALING;
-          if(velocity>127){velocity = 127;}
-          //Serial.println(String(velocity)+","+String(global_array[0][0])+","+String(global_array[0][1])+","+String(global_array[0][2]));
-
-          // Then play the triggered note with the measured velocity
-          playNote(/*MIDI_array[j]*/0x32, velocity);
-        }
+        // Increment index (so we know what note we're on)
+        index++;
       }
     }
 
     // Wait before moving on to the next buffer (to allow time for baton to move)
     delay(LOOP_TIME);
-    //Serial.println(String(analogRead(24)));
   }
 }
 
 // Function for playing a carillon MIDI note (on then immediately off)
 void playNote(int note, int volume){
-  noteOn(CHANNEL, note, volume);
-  noteOn(CHANNEL, note, 0x00);
+  noteOn(0x90, note, volume);
+  noteOn(0x90, note, 0x00);
 }
 
 // Function for building and sending MIDI messages over the serial interface 
