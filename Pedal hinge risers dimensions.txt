@@ -1,0 +1,44 @@
+pedal riser dimensions (mm)
+
+Total number of pedals: 27; need 27*24 inches of 1x2 (648", 54 feet)
+For: Pedal width: 19 (needs to expand to 30mm with pads)
+	Pedal Height (diatonic): 50.8 (actually 38)
+	Pedal Height (accidental): 76+38 (3in + 1.5 in)
+	Pedal Length (diatonic): 568 (nearly 24 inches)
+	Pedal Length (accidental): 454
+	Pedal Left Margin (to center of G): 85.45
+	Pedal Linear Spacing: 45.23
+	C to C: 1266.55
+	Slot Size: 85.68 (unpadded)
+	Keyfall at spreader: 85.68-38 = 47.68 (will need padding to match manuals)
+	Foot contact part length: 110
+
+Radius: 18mm (dia. 36)
+CHANGE TO: width 19, length 36, holes for hinge screws and mounting screw
+G: 59
+Bb: 53
+C : 35
+C#: 29
+D: 24
+Eb: 19
+E: 14
+F: 6
+F#: 3
+G: 1.5
+Ab: 0
+A: 0
+Bb: 0
+B: 0
+C: 1.5
+C#: 3
+D: 6
+Eb: 9
+E: 14
+F: 24
+F#: 29
+G: 35
+Ab: 41
+A: 47
+Bb: 53
+B: 59
+C: 71
